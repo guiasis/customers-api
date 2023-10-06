@@ -1,0 +1,73 @@
+service: customers-api
+frameworkVersion: '>=2.72.0'
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  lambdaHashingVersion: '20201221'
+  stage: ${opt:stage, 'dev'}
+  region: ${env:AWS_REGION, 'us-east-1'}
+  timeout: 30
+  versionfunctions: false
+  iamRoleStatements:
+    - Effect: 'Allow'
+      Action:
+        - lambda:InvokeFunction
+        - lambda:InvokeAsync
+        - lambda:PublishLayerVersion
+      Resource: '*'
+    - Effect: Allow
+      Action:
+        - 'cloudwatch:DescribeAlarms'
+        - 'cloudwatch:GetMetricStatistics'
+        - 'logs:DescribeLogStreams'
+        - 'logs:GetLogEvents'
+        - 'logs:CreateLogGroup'
+        - 'logs:CreateLogStream'
+        - 'logs:PutLogEvents'
+      Resource: '*'
+    - Effect: 'Allow'
+      Action:
+        - cloudformation:CreateStack
+        - cloudformation:DeleteStack
+        - cloudformation:UpdateStack
+        - cloudformation:DescribeStacks
+        - cloudformation:DescribeChangeSet
+        - cloudformation:CreateChangeSet
+        - cloudformation:DeleteChangeSet
+        - cloudformation:ExecuteChangeSet
+      Resource: '*'
+    - Effect: Allow
+      Action:
+        - dynamodb:*
+      Resource: '*'
+  deploymentBucket:
+    name: ${env:AWS_DEPLOY_BUCKET_NAME}
+    blockPublicAccess:  true
+    serverSideEncryption: AES256
+  environment:
+    NODE_ENV: ${env:NODE_ENV}
+    HOST: ${env:HOST}
+    PORT: ${env:PORT}
+    ACCESS_KEY_ID: ${env:AWS_ACCESS_KEY_ID}
+    SECRET_ACCESS_KEY: ${env:AWS_SECRET_ACCESS_KEY}
+
+useDotenv: true
+custom:
+  stage: ${self:provider.stage}
+  optimize:
+    external: ['swagger-ui-dist']
+
+functions:
+  main:
+    handler: dist/src/main.handler
+    events:
+      - http:
+          method: ANY
+          path: /{proxy+}
+
+package:
+  excludeDevDependencies: true
+
+plugins:
+  - serverless-offline
