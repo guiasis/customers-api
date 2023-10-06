@@ -6,7 +6,6 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { sendSNS } from '../aws/aws.service';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -25,16 +24,6 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const message: string = exception?.response?.message || exception.message;
 
     const stack: string = exception?.stack;
-
-    try {
-      if (process.env.NODE_ENV === 'prd') {
-        await sendSNS({
-          args: `${process.env.NODE_ENV} - Message:${message} - Stack:${stack} - Error:${exception}`,
-        });
-      }
-    } catch (error) {
-      console.error(error);
-    }
 
     response.status(status).json({
       statusCode: status,

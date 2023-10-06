@@ -362,7 +362,7 @@
     "@smithy/types" "^2.3.4"
     tslib "^2.5.0"
 
-"@aws-sdk/credential-provider-node@3.427.0":
+"@aws-sdk/credential-provider-node@3.427.0", "@aws-sdk/credential-provider-node@^3.427.0":
   version "3.427.0"
   resolved "https://registry.npmjs.org/@aws-sdk/credential-provider-node/-/credential-provider-node-3.427.0.tgz#f3bd63bc5ab5b897ce67d5960731f48c89ba7520"
   integrity sha512-wYYbQ57nKL8OfgRbl8k6uXcdnYml+p3LSSfDUAuUEp1HKlQ8lOXFJ3BdLr5qrk7LhpyppSRnWBmh2c3kWa7ANQ==
@@ -419,6 +419,14 @@
   integrity sha512-y3wipforet41EDTI0vnzxILqwAGll1KfI5qcdX9pXF/WF1f+3frcOtPiWtQEZQpy4czRogKm3BHo70QBYAZxlQ==
   dependencies:
     mnemonist "0.38.3"
+    tslib "^2.5.0"
+
+"@aws-sdk/lib-dynamodb@^3.427.0":
+  version "3.427.0"
+  resolved "https://registry.npmjs.org/@aws-sdk/lib-dynamodb/-/lib-dynamodb-3.427.0.tgz#2e5c7c06466f1ffe17279d1d5c4c2512eb7468e6"
+  integrity sha512-a08zd+rUyXXRXI1a/0Kja5yjZbuxWyZZA4/h7PmoW/vfuYFYUoDl0BcTh/hpdeiItlg2LRsJJ2zANf66BnI5IQ==
+  dependencies:
+    "@aws-sdk/util-dynamodb" "3.427.0"
     tslib "^2.5.0"
 
 "@aws-sdk/middleware-endpoint-discovery@3.425.0":
@@ -554,6 +562,13 @@
   integrity sha512-6lqbmorwerN4v+J5dqbHPAsjynI0mkEF+blf+69QTaKKGaxBBVaXgqoqul9RXYcK5MMrrYRbQIMd0zYOoy90kA==
   dependencies:
     "@smithy/types" "^2.3.4"
+    tslib "^2.5.0"
+
+"@aws-sdk/util-dynamodb@3.427.0":
+  version "3.427.0"
+  resolved "https://registry.npmjs.org/@aws-sdk/util-dynamodb/-/util-dynamodb-3.427.0.tgz#59254842c045274c4fc0db08339ba6f69e46cd2f"
+  integrity sha512-eXPdPM7ZIS4DfRJrGeWQJjcxnNAaioRrtgNpRoVy1HwMVYPtUvIyTuUWY8xIeJyXnX3/JrBJWCDoQPxkrp9T2w==
+  dependencies:
     tslib "^2.5.0"
 
 "@aws-sdk/util-endpoints@3.427.0":
