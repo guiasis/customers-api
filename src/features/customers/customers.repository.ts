@@ -18,7 +18,7 @@ export class CustomersRepository {
         ...customer,
         _id: uuid,
       },
-      PK: 'CUSTOMER',
+      PK: 'CUSTOMERS',
       SK: `CUSTOMER#${uuid}`,
       CreatedAt: createdAt,
       UpdatedAt: null,
@@ -38,7 +38,7 @@ export class CustomersRepository {
         '#SK': 'SK',
       },
       ExpressionAttributeValues: {
-        ':pk': `CUSTOMER`,
+        ':pk': `CUSTOMERS`,
         ':sk': `CUSTOMER#${customerId}`,
       },
     };
@@ -62,7 +62,7 @@ export class CustomersRepository {
     };
 
     const customerKey = {
-      PK: `CUSTOMER`,
+      PK: `CUSTOMERS`,
       SK: `CUSTOMER#${customer._id}`,
     };
 
@@ -90,5 +90,29 @@ export class CustomersRepository {
     );
 
     return;
+  }
+
+  async getAllCustomers(): Promise<Customer[]> {
+    const params = {
+      KeyConditionExpression: '#PK = :pk and begins_with(#SK, :sk)',
+      ExpressionAttributeNames: {
+        '#PK': 'PK',
+        '#SK': 'SK',
+      },
+      ExpressionAttributeValues: {
+        ':pk': `CUSTOMERS`,
+        ':sk': `CUSTOMER#`,
+      },
+    };
+
+    const customers = await this.dynamoDBSvc.getItems(params);
+
+    if (!customers.Items || customers.length === 0) {
+      return [];
+    }
+
+    return customers.Items.map((customerRaw) =>
+      CustomerDto.fromDynamo(customerRaw),
+    );
   }
 }

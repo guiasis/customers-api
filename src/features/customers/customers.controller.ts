@@ -46,4 +46,11 @@ export class CustomersController {
       updateCustomerBody,
     );
   }
+
+  @Get('list')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Obter uma lista de clientes' })
+  listCustomers(): Promise<Customer[]> {
+    return this.customersSvc.listCustomers();
+  }
 }

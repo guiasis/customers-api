@@ -25,4 +25,8 @@ export class CustomersService {
       customer,
     );
   }
+
+  async listCustomers(): Promise<Customer[]> {
+    return await this.customersRepository.getAllCustomers();
+  }
 }
