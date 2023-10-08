@@ -144,4 +144,39 @@ export class CustomersRepository {
 
     return;
   }
+
+  async searchCustomer(value: string): Promise<Customer[]> {
+    const params = {
+      KeyConditionExpression: '#PK = :pk and begins_with(#SK, :sk)',
+      ExpressionAttributeNames: {
+        '#PK': 'PK',
+        '#SK': 'SK',
+      },
+      ExpressionAttributeValues: {
+        ':pk': `CUSTOMERS`,
+        ':sk': `CUSTOMER#`,
+      },
+    };
+
+    const result = await this.dynamoDBSvc.getItems(params);
+
+    if (!result.Items || result.length === 0) {
+      return [];
+    }
+
+    const customers = result.Items.map((customerRaw) =>
+      CustomerDto.fromDynamo(customerRaw),
+    );
+
+    const filter = new RegExp(value, 'gi');
+
+    const filteredCustomers = customers.filter(
+      (customer: Customer) =>
+        filter.test(customer.document) ||
+        filter.test(customer.name) ||
+        filter.test(customer.email),
+    );
+
+    return filteredCustomers;
+  }
 }

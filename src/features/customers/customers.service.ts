@@ -33,4 +33,12 @@ export class CustomersService {
   async deleteCustomer(customerId: string): Promise<void> {
     return await this.customersRepository.deleteCustomer(customerId);
   }
+
+  async searchCustomers(value: string | void): Promise<Customer[]> {
+    if (!value) {
+      return;
+    }
+
+    return await this.customersRepository.searchCustomer(value);
+  }
 }
