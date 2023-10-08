@@ -23,7 +23,7 @@ $ npm run start:debug
 #### Access Swagger
 
 ```http
-/api
+:NODE_ENV/api
 ```
 
 ## Test
