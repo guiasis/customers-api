@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpCode,
   Param,
@@ -52,5 +53,12 @@ export class CustomersController {
   @ApiOperation({ summary: 'Obter uma lista de clientes' })
   listCustomers(): Promise<Customer[]> {
     return this.customersSvc.listCustomers();
+  }
+
+  @Delete(':customerId')
+  @HttpCode(204)
+  @ApiOperation({ summary: 'Deletar um cliente por meio do id' })
+  deleteCustomer(@Param() param: { customerId: string }): Promise<void> {
+    return this.customersSvc.deleteCustomer(param.customerId);
   }
 }

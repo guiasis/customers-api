@@ -115,4 +115,33 @@ export class CustomersRepository {
       CustomerDto.fromDynamo(customerRaw),
     );
   }
+
+  async deleteCustomer(customerId: string): Promise<void> {
+    const customerKey = {
+      PK: `CUSTOMERS`,
+      SK: `CUSTOMER#${customerId}`,
+    };
+
+    const customerUpdateExpression = `set
+      #Deleted = :Deleted;
+      #UpdatedAt = :UpdatedAt`;
+
+    const customerAttributeNames = {
+      '#Deleted': 'Deleted',
+      '#UpdatedAt': 'UpdatedAt',
+    };
+    const customerAttributeValues = {
+      ':Deleted': 'Y',
+      ':UpdatedAt': new Date().toISOString(),
+    };
+
+    await this.dynamoDBSvc.update(
+      customerKey,
+      customerUpdateExpression,
+      customerAttributeNames,
+      customerAttributeValues,
+    );
+
+    return;
+  }
 }

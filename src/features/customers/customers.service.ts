@@ -29,4 +29,8 @@ export class CustomersService {
   async listCustomers(): Promise<Customer[]> {
     return await this.customersRepository.getAllCustomers();
   }
+
+  async deleteCustomer(customerId: string): Promise<void> {
+    return await this.customersRepository.deleteCustomer(customerId);
+  }
 }
