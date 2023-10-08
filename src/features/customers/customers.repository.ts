@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { DynamoDBService } from 'core/aws/dynamodb/dynamodb.service';
-import { CustomerDto } from './types/create-customers.dto';
+import { CustomerDto } from './types/customers.dto';
 import { v4 as uuidv4 } from 'uuid';
 import { Customer } from './types/customers.type';
+import { UpdateCustomerDto } from './types/update-customers.dto';
 
 @Injectable()
 export class CustomersRepository {
@@ -49,5 +50,45 @@ export class CustomersRepository {
     }
 
     return CustomerDto.fromDynamo(customer?.Items[0]);
+  }
+
+  async updateCustomer(
+    updateInfos: UpdateCustomerDto,
+    customer: Customer,
+  ): Promise<void> {
+    const newCustomer = {
+      ...customer,
+      ...updateInfos,
+    };
+
+    const customerKey = {
+      PK: `CUSTOMER`,
+      SK: `CUSTOMER#${customer._id}`,
+    };
+
+    const customerUpdateExpression = `set
+      Content.name = :name,
+      Content.email = :email,
+      Content.document = :document,
+      #UpdatedAt = :UpdatedAt`;
+
+    const customerAttributeNames = {
+      '#UpdatedAt': 'UpdatedAt',
+    };
+    const customerAttributeValues = {
+      ':name': newCustomer.name,
+      ':email': newCustomer.email,
+      ':document': newCustomer.document,
+      ':UpdatedAt': new Date().toISOString(),
+    };
+
+    await this.dynamoDBSvc.update(
+      customerKey,
+      customerUpdateExpression,
+      customerAttributeNames,
+      customerAttributeValues,
+    );
+
+    return;
   }
 }

@@ -1,8 +1,17 @@
-import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CustomersService } from './customers.service';
-import { CustomerDto } from './types/create-customers.dto';
+import { CustomerDto } from './types/customers.dto';
 import { Customer } from './types/customers.type';
+import { UpdateCustomerDto } from './types/update-customers.dto';
 
 @ApiTags('customers')
 @Controller('customers')
@@ -21,5 +30,20 @@ export class CustomersController {
   @ApiOperation({ summary: 'Obter um cliente por meio do id' })
   getCustomerById(@Param() param: { customerId: string }): Promise<Customer> {
     return this.customersSvc.getCustomerById(param.customerId);
+  }
+
+  @Put(':customerId')
+  @HttpCode(204)
+  @ApiOperation({
+    summary: 'Atualizar os dados de um cliente por meio do seu id',
+  })
+  updateCustomer(
+    @Body() updateCustomerBody: UpdateCustomerDto,
+    @Param() param: { customerId: string },
+  ): Promise<void> {
+    return this.customersSvc.updateCustomer(
+      param.customerId,
+      updateCustomerBody,
+    );
   }
 }

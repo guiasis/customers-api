@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CustomersRepository } from './customers.repository';
-import { CustomerDto } from './types/create-customers.dto';
+import { CustomerDto } from './types/customers.dto';
 import { Customer } from './types/customers.type';
+import { UpdateCustomerDto } from './types/update-customers.dto';
 @Injectable()
 export class CustomersService {
   constructor(private readonly customersRepository: CustomersRepository) {}
@@ -12,5 +13,16 @@ export class CustomersService {
 
   async getCustomerById(customerId: string): Promise<Customer> {
     return await this.customersRepository.getCustomerById(customerId);
+  }
+
+  async updateCustomer(
+    customerId: string,
+    updateCustomerBody: UpdateCustomerDto,
+  ): Promise<void> {
+    const customer = await this.customersRepository.getCustomerById(customerId);
+    return await this.customersRepository.updateCustomer(
+      updateCustomerBody,
+      customer,
+    );
   }
 }
