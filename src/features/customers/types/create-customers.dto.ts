@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Customer } from './customers.type';
 
-export class CreateCustomerDto {
+export class CustomerDto {
   @IsNotEmpty()
   @IsString()
   @ApiProperty({
@@ -30,7 +30,7 @@ export class CreateCustomerDto {
   })
   document: string;
 
-  constructor(partial: Partial<CreateCustomerDto>) {
+  constructor(partial: Partial<CustomerDto>) {
     Object.assign(this, partial);
   }
 
