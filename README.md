@@ -1,12 +1,16 @@
 
+## Descrição
 
-## Installation
+Repositório de backend feito com Nest.js. O objetivo da api é ser um CRUD de clientes com integração ao DynamoDB.
+
+
+## Instalação
 
 ```bash
 $ npm install
 ```
 
-## Running app
+## Rodando o app
 
 ```bash
 # development
@@ -20,23 +24,10 @@ $ npm run start:debug
 
 ```
 
-#### Access Swagger
+#### Acesso ao Swagger
 
 ```http
 :NODE_ENV/api
-```
-
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
 ```
 
 ## License

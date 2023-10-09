@@ -1,0 +1,25 @@
+#INSTALE A EXTENSÃO REST Client para utilizar esse arquivo
+
+GET http://localhost:3000/dev/customers/4d049a9a-24df-4de5-a37c-8860c201a3b5
+
+###
+PUT http://localhost:3000/dev/customers/4d049a9a-24df-4de5-a37c-8860c201a3b5
+
+###
+GET http://localhost:3000/dev/customers/list
+
+###
+DELETE http://localhost:3000/dev/customers/4d049a9a-24df-4de5-a37c-8860c201a3b5
+
+###
+GET http://localhost:3000/dev/customers/search?value=guilherme
+
+###
+POST http://localhost:3000/dev/customers
+Content-Type: application/json
+
+{
+    "name": "teste",
+    "email": "teste@teste.com",
+    "document": "999999999"
+}
